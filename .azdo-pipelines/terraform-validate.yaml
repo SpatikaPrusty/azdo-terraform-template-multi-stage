@@ -1,0 +1,14 @@
+trigger: none
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: UseTerraform@0
+  inputs:
+    terraformVersion: 'latest'
+
+- script: |
+    terraform init
+    terraform validate
+  displayName: 'Run terraform validate'
