@@ -4,16 +4,17 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- task: charleszipp.azure-pipelines-tasks-terraform.terraform-installer@0
-  inputs:
-    terraformVersion: 'latest'
+- script: |
+    echo "Installing Terraform..."
+    wget https://releases.hashicorp.com/terraform/1.4.6/terraform_1.4.6_linux_amd64.zip
+    unzip terraform_1.4.6_linux_amd64.zip
+    sudo mv terraform /usr/local/bin/
+  displayName: 'Install Terraform'
 
-- task: charleszipp.azure-pipelines-tasks-terraform.terraform@0
-  inputs:
-    command: 'init'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/src/terraform'
+- script: |
+    terraform init
+  displayName: 'Initialize Terraform'
 
-- task: charleszipp.azure-pipelines-tasks-terraform.terraform@0
-  inputs:
-    command: 'validate'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/src/terraform'
+- script: |
+    terraform validate
+  displayName: 'Validate Terraform'
